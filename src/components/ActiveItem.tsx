@@ -1,15 +1,13 @@
 import React from "react";
-import { useId } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Task } from "../types/task";
 import parseDate from "../utils/parseDate";
 
 type ItemProps = { task: Task };
 
-const ListItem = ({ task }: ItemProps) => {
-  const id = useId();
+const ActiveItem = ({ task }: ItemProps) => {
   return (
-    <View style={styles.item} key={`list-item-${id}`}>
+    <View style={styles.item}>
       <Text style={styles.title}>{task.title}</Text>
       <Text style={styles.time}>{parseDate(task.time | 0)}</Text>
     </View>
@@ -25,13 +23,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderStyle: "solid",
     padding: 20,
+    width: "100%",
+    backgroundColor: "black",
   },
   title: {
     fontSize: 24,
+    color: "white",
   },
   time: {
     fontSize: 12,
+    color: "white",
   },
 });
 
-export default ListItem;
+export default ActiveItem;

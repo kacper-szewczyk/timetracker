@@ -6,24 +6,30 @@ import parseDate from "../utils/parseDate";
 
 type ItemProps = { task: Task };
 
-const ListItem = ({ task }: ItemProps) => {
+const ItemDetails = ({ task }: ItemProps) => {
   const id = useId();
   return (
-    <View style={styles.item} key={`list-item-${id}`}>
+    <View style={styles.wrapper} key={`item-details-${id}`}>
       <Text style={styles.title}>{task.title}</Text>
       <Text style={styles.time}>{parseDate(task.time | 0)}</Text>
+      {task.records.map((record) => (
+        <View>
+          <Text style={[styles.time, styles.startedAt]}>
+            {parseDate(record.startedAt | 0)}
+          </Text>
+          <Text style={[styles.time, styles.finishedAt]}>
+            {record.finishedAt ? parseDate(record.finishedAt | 0) : "-"}
+          </Text>
+        </View>
+      ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
-    flexDirection: "row",
+  wrapper: {
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottomColor: "#000",
-    borderBottomWidth: 1,
-    borderStyle: "solid",
     padding: 20,
   },
   title: {
@@ -32,6 +38,12 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12,
   },
+  startedAt: {
+    color: "green",
+  },
+  finishedAt: {
+    color: "red",
+  },
 });
 
-export default ListItem;
+export default ItemDetails;
