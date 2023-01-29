@@ -10,6 +10,7 @@ import {
 } from "../store/common";
 import { useAppDispatch } from "../store/helpers";
 import ActiveItem from "./ActiveItem";
+import AddNewTask from "./AddNewTask";
 import ListItem from "./ListItem";
 
 const List = () => {
@@ -39,6 +40,7 @@ const List = () => {
           </View>
         }
       />
+      <AddNewTask />
     </SafeAreaView>
   );
 };

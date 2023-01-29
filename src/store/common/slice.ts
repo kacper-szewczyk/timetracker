@@ -5,12 +5,12 @@ import { Task } from '../../types/task';
 import { fetchActiveTask, fetchTasks } from './actions';
 
 type State = {
-  tasks: Task[] | null;
+  tasks: Task[];
   activeTask: Task | null;
 };
 
 const INITIAL_STATE: State = {
-  tasks: null,
+  tasks: [],
   activeTask: null,
 };
 
@@ -20,14 +20,21 @@ const setTasks: Reducer<Task[]> = (state, action) => {
   state.tasks = action.payload;
 };
 
-const setActiveTask: Reducer<Task> = (state, action) => {
+const setActiveTask: Reducer<Task | null> = (state, action) => {
   state.activeTask = action.payload;
+};
+
+const addNewTask: Reducer<Task> = (state, action) => {
+  console.log('action.payload', action.payload)
+  state.tasks = [...state.tasks, action.payload];
+  console.log('state.tasks', state.tasks);
 };
 
 
 const reducers = {
   setActiveTask,
   setTasks,
+  addNewTask,
 };
 
 const { reducer, name, ...rest } = createSlice<State, typeof reducers>({
