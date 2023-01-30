@@ -90,7 +90,7 @@ export const startWorkingOnTask = createAsyncThunk<
   try {
     const {common} = getState();
     const task = common.tasks.find(task => task.id === taskId);
-    if(!task) return;
+    if(!task || task.id === common.activeTask?.id) return;
     if (common.activeTask?.id) {
       dispatch(stopWorkingOnTask(common.activeTask.id));
     }
