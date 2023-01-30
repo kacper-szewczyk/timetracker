@@ -1,8 +1,14 @@
 import React from "react";
 import { useId } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TouchableRipple } from "react-native-paper";
-import { setShowTaskDetails, startWorkingOnTask } from "../store/common";
+import { Button, TouchableRipple } from "react-native-paper";
+import { useSelector } from "react-redux";
+import {
+  getActiveTask,
+  setShowTaskDetails,
+  startWorkingOnTask,
+  stopWorkingOnTask,
+} from "../store/common";
 import { useAppDispatch } from "../store/helpers";
 import { Task } from "../types/task";
 import parseDate from "../utils/parseDate";
@@ -12,14 +18,34 @@ type ItemProps = { task: Task };
 const ListItem = ({ task }: ItemProps) => {
   const id = useId();
   const dispatch = useAppDispatch();
+  const active = useSelector(getActiveTask);
+
+  const isTaskActive = active && active.id === task.id;
+
+  const onPressButton = () => {
+    if (isTaskActive) {
+      dispatch(stopWorkingOnTask(task.id));
+    } else {
+      dispatch(startWorkingOnTask(task.id));
+    }
+  };
   return (
-    <TouchableRipple
-      onPress={() => dispatch(startWorkingOnTask(task.id))}
-      onLongPress={() => dispatch(setShowTaskDetails(task))}
-    >
+    <TouchableRipple onPress={() => dispatch(setShowTaskDetails(task))}>
       <View style={styles.item} key={`list-item-${id}`}>
-        <Text style={styles.title}>{task.title}</Text>
-        <Text style={styles.time}>{parseDate(task.time || 0)}</Text>
+        <View>
+          <Text style={styles.title}>{task.title}</Text>
+          {!isTaskActive && (
+            <Text style={styles.time}>{parseDate(task.time || 0)}</Text>
+          )}
+        </View>
+        <Button
+          onPress={onPressButton}
+          mode="outlined"
+          textColor="white"
+          buttonColor={isTaskActive ? "red" : "green"}
+        >
+          {isTaskActive ? "Stop" : "Start"}
+        </Button>
       </View>
     </TouchableRipple>
   );
@@ -40,6 +66,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 12,
+    marginTop: 4,
   },
 });
 

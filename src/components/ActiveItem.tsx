@@ -14,7 +14,6 @@ const ActiveItem = () => {
 
   useEffect(() => {
     if (task) {
-      setTime(task.time || 0);
       const currentTime = Date.now();
       const timeOfLastIntervalStarted = task.records
         ? task.records[task.records.length - 1].startedAt
@@ -22,6 +21,7 @@ const ActiveItem = () => {
       const alreadySpentTime =
         (task.time || 0) + (currentTime - timeOfLastIntervalStarted) / 1000;
       setTime(alreadySpentTime);
+
       const interval = setInterval(
         () => setTime(alreadySpentTime + (Date.now() - currentTime) / 1000),
         1000
