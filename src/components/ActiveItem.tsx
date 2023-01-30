@@ -17,7 +17,7 @@ const ActiveItem = ({ task }: ItemProps) => {
     >
       <View style={styles.item}>
         <Text style={styles.title}>{task.title}</Text>
-        <Text style={styles.time}>{parseDate(task.time | 0)}</Text>
+        <Text style={styles.time}>{parseDate(task.time || 0)}</Text>
       </View>
     </TouchableRipple>
   );

@@ -12,6 +12,7 @@ import { useAppDispatch } from "../store/helpers";
 import ActiveItem from "./ActiveItem";
 import AddNewTask from "./AddNewTask";
 import ListItem from "./ListItem";
+import TaskDetails from "./TaskDetails";
 
 const List = () => {
   const list = useSelector(getTasks);
@@ -41,6 +42,7 @@ const List = () => {
         }
       />
       <AddNewTask />
+      <TaskDetails />
     </SafeAreaView>
   );
 };

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Task } from '../../types/task';
+import generateId from '../../utils/generateId';
 import { ThunkApiConfig } from '../store';
 import slice from './slice';
 
@@ -7,11 +8,13 @@ const {
   setTasks,
   setActiveTask,
   addNewTask,
+  setShowTaskDetails
 } = slice.actions;
 
 export {
   setTasks,
   setActiveTask,
+  setShowTaskDetails,
 };
 
 
@@ -68,7 +71,7 @@ export const postNewTask = createAsyncThunk<
 >('common/addNewTask', async (taskName, {dispatch}) => {
   try {
     dispatch(addNewTask({
-      id: (Math.floor(Math.random() * 100)).toString(),
+      id: generateId(),
       title: taskName
     } as Task))
 

@@ -7,6 +7,6 @@ export type Records = {
 export type Task = {
     id: string;
     title: string;
-    time: number;
-    records: Records[];
+    time?: number;
+    records?: Records[];
 }
