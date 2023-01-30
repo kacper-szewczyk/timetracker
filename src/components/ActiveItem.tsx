@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
-import { stopWorkingOnTask } from "../store/common";
+import { useSelector } from "react-redux";
+import { getActiveTask, stopWorkingOnTask } from "../store/common";
 import { useAppDispatch } from "../store/helpers";
-import { Task } from "../types/task";
 import parseDate from "../utils/parseDate";
 
-type ItemProps = { task: Task };
-
-const ActiveItem = ({ task }: ItemProps) => {
+const ActiveItem = () => {
   const dispatch = useAppDispatch();
+  const task = useSelector(getActiveTask);
+
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    if (task) {
+      setTime(task.time || 0);
+      const currentTime = Date.now();
+      const interval = setInterval(
+        () => setTime((task.time || 0) + (Date.now() - currentTime) / 1000),
+        1000
+      );
+
+      return () => clearInterval(interval);
+    }
+  }, [task]);
+
+  if (!task) {
+    return null;
+  }
+
   return (
     <TouchableRipple
       style={styles.wrapper}
@@ -17,7 +36,7 @@ const ActiveItem = ({ task }: ItemProps) => {
     >
       <View style={styles.item}>
         <Text style={styles.title}>{task.title}</Text>
-        <Text style={styles.time}>{parseDate(task.time || 0)}</Text>
+        <Text style={styles.time}>{parseDate(time || 0)}</Text>
       </View>
     </TouchableRipple>
   );

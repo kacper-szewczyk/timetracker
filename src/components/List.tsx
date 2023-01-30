@@ -1,14 +1,7 @@
 import React from "react";
-import { useEffect } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
-import {
-  fetchActiveTask,
-  fetchTasks,
-  getActiveTask,
-  getTasks,
-} from "../store/common";
-import { useAppDispatch } from "../store/helpers";
+import { getTasks } from "../store/common";
 import ActiveItem from "./ActiveItem";
 import AddNewTask from "./AddNewTask";
 import ListItem from "./ListItem";
@@ -16,18 +9,19 @@ import TaskDetails from "./TaskDetails";
 
 const List = () => {
   const list = useSelector(getTasks);
-  const active = useSelector(getActiveTask);
+
+  /* Test purpose only
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchTasks());
     dispatch(fetchActiveTask());
-  }, [dispatch]);
+  }, [dispatch]);*/
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Todo list</Text>
-      {active && <ActiveItem task={active} />}
+      <ActiveItem />
       <FlatList
         style={styles.list}
         data={list}

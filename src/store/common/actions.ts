@@ -18,6 +18,7 @@ export {
 };
 
 
+// Test data 
 const INITIAL_DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -33,6 +34,7 @@ const INITIAL_DATA = [
   }
 ] as Task[];
 
+// Test perpose only 
 export const fetchTasks = createAsyncThunk<
   Task[] | undefined,
   void,
@@ -47,8 +49,7 @@ export const fetchTasks = createAsyncThunk<
   }
 });
 
-
-
+// Test perpose only 
 export const fetchActiveTask = createAsyncThunk<
   Task | undefined,
   void,
@@ -90,6 +91,9 @@ export const startWorkingOnTask = createAsyncThunk<
     const {common} = getState();
     const task = common.tasks.find(task => task.id === taskId);
     if(!task) return;
+    if (common.activeTask?.id) {
+      dispatch(stopWorkingOnTask(common.activeTask.id));
+    }
     dispatch(setActiveTask(task))
 
   } catch (error) {
